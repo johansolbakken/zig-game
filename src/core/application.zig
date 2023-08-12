@@ -7,6 +7,8 @@ const Input = @import("input.zig");
 const VertexArray = @import("../renderer/vertexarray.zig").VertexArray;
 const VertexBuffer = @import("../renderer/vertexbuffer.zig").VertexBuffer;
 
+const opengl = @import("../platform/opengl/opengl.zig");
+
 pub const Application = struct {
     const Self = @This();
 
@@ -41,6 +43,10 @@ pub const Application = struct {
 
         var vb = try VertexBuffer.init(&vertices, 3 * 3 * @sizeOf(u32));
         defer vb.deinit();
+        vb.bind();
+
+        opengl.enableVertexAttribArray(0);
+        opengl.vertexAttribPointer(0, 3, opengl.GLType.Float, false, 3 * @sizeOf(f32), 0);
 
         while (!self.window.shouldClose()) {
             RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
@@ -49,6 +55,8 @@ pub const Application = struct {
             if (Input.isKeyPressed(Input.Key.Escape)) {
                 std.log.info("Escape pressed\n", .{});
             }
+
+            RenderCommand.drawIndexed(&va, 3);
 
             self.window.update();
         }

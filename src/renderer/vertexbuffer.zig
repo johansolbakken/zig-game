@@ -22,4 +22,11 @@ pub const VertexBuffer = struct {
             else => unreachable,
         }
     }
+
+    pub fn bind(self: *const Self) void {
+        switch (RenderApi.api) {
+            .OpenGL => self.glImpl.bind(),
+            else => unreachable,
+        }
+    }
 };
