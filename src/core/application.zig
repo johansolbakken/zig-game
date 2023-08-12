@@ -1,5 +1,5 @@
 const Window = @import("window.zig").Window;
-const Renderer = @import("renderer.zig").Renderer;
+const Renderer = @import("../renderer/renderer.zig").Renderer;
 
 pub const Application = struct {
     const Self = @This();
