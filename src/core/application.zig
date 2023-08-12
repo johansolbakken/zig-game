@@ -11,6 +11,7 @@ pub const Application = struct {
     pub fn init() !Self {
         const window = try Window.init("My game", 800, 600);
         const renderer = try Renderer.init();
+
         return .{
             .window = window,
             .renderer = renderer,
