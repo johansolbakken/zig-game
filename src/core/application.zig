@@ -1,6 +1,8 @@
+const std = @import("std");
 const Window = @import("window.zig").Window;
 const Renderer = @import("../renderer/renderer.zig").Renderer;
 const RenderCommand = @import("../renderer/rendercommand.zig");
+const Input = @import("input.zig");
 
 pub const Application = struct {
     const Self = @This();
@@ -27,6 +29,11 @@ pub const Application = struct {
         while (!self.window.shouldClose()) {
             RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
             RenderCommand.clear();
+
+            if (Input.isKeyPressed(Input.Key.Escape)) {
+                std.log.info("Escape pressed\n", .{});
+            }
+
             self.window.update();
         }
     }
