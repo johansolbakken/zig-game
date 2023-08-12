@@ -19,6 +19,10 @@ pub const OpenGLShader = struct {
         };
     }
 
+    pub fn deinit(self: *const Self) void {
+        opengl.deleteProgram(self.rendererId);
+    }
+
     fn compile(vertexSrc: []const u8, fragmentSrc: []const u8) !u32 {
         var vertex = opengl.createShader(opengl.ShaderType.Vertex);
         defer opengl.deleteShader(vertex);

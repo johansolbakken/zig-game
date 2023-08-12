@@ -13,6 +13,13 @@ pub const Shader = struct {
         }
     }
 
+    pub fn deinit(self: *Self) void {
+        switch (RenderApi.api) {
+            .OpenGL => self.glImpl.deinit(),
+            else => unreachable,
+        }
+    }
+
     pub fn bind(self: *const Self) void {
         switch (RenderApi.api) {
             .OpenGL => self.glImpl.bind(),

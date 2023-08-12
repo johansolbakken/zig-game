@@ -117,6 +117,10 @@ pub fn createProgram() u32 {
     return glad.glCreateProgram();
 }
 
+pub fn deleteProgram(program: u32) void {
+    glad.glDeleteProgram(program);
+}
+
 pub fn attachShader(program: u32, shader: u32) void {
     glad.glAttachShader(program, shader);
 }

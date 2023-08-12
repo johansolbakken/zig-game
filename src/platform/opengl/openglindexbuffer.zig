@@ -10,7 +10,7 @@ pub const OpenGLIndexBuffer = struct {
         indices: []const u32,
         count: u32,
     ) Self {
-        var rendererId: u32 = undefined;
+        var rendererId: u32 = 0;
         opengl.genBuffers(1, &rendererId);
         opengl.bindBuffer(opengl.BufferBindingTarget.ElementArrayBuffer, rendererId);
         opengl.bufferData(
@@ -34,6 +34,6 @@ pub const OpenGLIndexBuffer = struct {
     }
 
     pub fn getCount(self: *const Self) u32 {
-        _ = self;
+        return self.count;
     }
 };
