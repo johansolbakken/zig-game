@@ -6,6 +6,7 @@ const Input = @import("input.zig");
 
 const VertexArray = @import("../renderer/vertexarray.zig").VertexArray;
 const VertexBuffer = @import("../renderer/vertexbuffer.zig").VertexBuffer;
+const IndexBuffer = @import("../renderer/indexbuffer.zig").IndexBuffer;
 const Shader = @import("../renderer/shader.zig").Shader;
 
 const opengl = @import("../platform/opengl/opengl.zig");
@@ -40,6 +41,9 @@ pub const Application = struct {
             0.5,  -0.5, 0.0,
             0.0,  0.5,  0.0,
         };
+        const indices = [_]u32{
+            0, 1, 2,
+        };
 
         var va = try VertexArray.init();
         defer va.deinit();
@@ -48,6 +52,10 @@ pub const Application = struct {
         var vb = try VertexBuffer.init(&vertices, 3 * 3 * @sizeOf(u32));
         defer vb.deinit();
         vb.bind();
+
+        var ib = try IndexBuffer.init(&indices, 3);
+        defer ib.deinit();
+        ib.bind();
 
         opengl.enableVertexAttribArray(0);
         opengl.vertexAttribPointer(0, 3, opengl.GLType.Float, false, 3 * @sizeOf(f32), 0);
