@@ -6,3 +6,11 @@ pub fn init() !void {
         return error.FailedToInitGlad;
     }
 }
+
+pub fn setClearColor(r: f32, g: f32, b: f32, a: f32) void {
+    glad.glClearColor(r, g, b, a);
+}
+
+pub fn clear() void {
+    glad.glClear(glad.GL_COLOR_BUFFER_BIT | glad.GL_DEPTH_BUFFER_BIT);
+}
