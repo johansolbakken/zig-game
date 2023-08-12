@@ -14,6 +14,11 @@ pub const Window = struct {
             return error.GlfwInitFailed;
         }
 
+        glfw3.glfwWindowHint(glfw3.GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfw3.glfwWindowHint(glfw3.GLFW_CONTEXT_VERSION_MINOR, 1);
+        glfw3.glfwWindowHint(glfw3.GLFW_OPENGL_PROFILE, glfw3.GLFW_OPENGL_CORE_PROFILE);
+        glfw3.glfwWindowHint(glfw3.GLFW_OPENGL_FORWARD_COMPAT, 1);
+
         const window = glfw3.glfwCreateWindow(640, 480, @ptrCast(title), null, null);
         if (window == null) {
             return error.GlfwWindowCreationFailed;
