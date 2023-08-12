@@ -1,5 +1,6 @@
 const glad = @cImport(@cInclude("glad/glad.h"));
 const glinit = @cImport(@cInclude("platform/opengl/glinit.h"));
+const std = @import("std");
 
 pub fn init() !void {
     if (glinit.initGlad() != 0) {
@@ -110,4 +111,69 @@ pub const DrawMode = enum(c_uint) {
 
 pub fn drawIndexed(mode: DrawMode, count: i32, dataType: GLType) void {
     glad.glDrawElements(@intFromEnum(mode), count, @intFromEnum(dataType), null);
+}
+
+pub fn createProgram() u32 {
+    return glad.glCreateProgram();
+}
+
+pub fn attachShader(program: u32, shader: u32) void {
+    glad.glAttachShader(program, shader);
+}
+
+pub fn linkProgram(program: u32) !void {
+    glad.glLinkProgram(program);
+    try debugProgramLinking(program);
+}
+
+pub fn debugProgramLinking(program: u32) !void {
+    var success: i32 = 0;
+    glad.glGetProgramiv(program, glad.GL_LINK_STATUS, &success);
+    if (success == 0) {
+        var infoLog: [512]u8 = undefined;
+        var length: i32 = 0;
+        glad.glGetProgramInfoLog(program, 512, &length, &infoLog);
+        std.log.err("OpenGL program linking failed: {s}", .{infoLog[0..@intCast(length)]});
+    }
+}
+
+pub fn useProgram(program: u32) void {
+    glad.glUseProgram(program);
+}
+
+pub const ShaderType = enum(c_uint) {
+    Vertex = glad.GL_VERTEX_SHADER,
+    Fragment = glad.GL_FRAGMENT_SHADER,
+    Geometry = glad.GL_GEOMETRY_SHADER,
+    TessControl = glad.GL_TESS_CONTROL_SHADER,
+    TessEvaluation = glad.GL_TESS_EVALUATION_SHADER,
+    Compute = glad.GL_COMPUTE_SHADER,
+};
+
+pub fn createShader(shaderType: ShaderType) u32 {
+    return glad.glCreateShader(@intFromEnum(shaderType));
+}
+
+pub fn deleteShader(shader: u32) void {
+    glad.glDeleteShader(shader);
+}
+
+pub fn shaderSource(shader: u32, source: []const u8) void {
+    glad.glShaderSource(shader, 1, @ptrCast(&source), null);
+}
+
+pub fn compileShader(shader: u32) !void {
+    glad.glCompileShader(shader);
+    try debugShaderCompilation(shader);
+}
+
+pub fn debugShaderCompilation(shader: u32) !void {
+    var success: i32 = 0;
+    glad.glGetShaderiv(shader, glad.GL_COMPILE_STATUS, &success);
+    if (success == 0) {
+        var infoLog: [512]u8 = undefined;
+        var length: i32 = 0;
+        glad.glGetShaderInfoLog(shader, 512, &length, &infoLog);
+        std.log.err("OpenGL shader compilation failed: {s}", .{infoLog[0..@intCast(length)]});
+    }
 }

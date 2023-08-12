@@ -1,4 +1,5 @@
 const std = @import("std");
+const opengl = @import("opengl.zig");
 
 const ShaderType = enum {
     Unknown,
@@ -11,43 +12,33 @@ pub const OpenGLShader = struct {
 
     rendererId: u32,
 
-    pub fn init(code: []const u8) !Self {
-        var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-
-        var vertexSource: []const u8 = "";
-        var fragmentSource: []const u8 = "";
-
-        var shaderType = ShaderType.Unknown;
-
-        var lines = std.mem.split(u8, code, "\n");
-        while (lines.next()) |line| {
-            if (std.mem.eql(u8, line, "#shader vertex")) {
-                shaderType = ShaderType.Vertex;
-            } else if (std.mem.eql(u8, line, "#shader fragment")) {
-                shaderType = ShaderType.Fragment;
-            } else {
-                switch (shaderType) {
-                    .Vertex => {
-                        vertexSource = try std.mem.concat(gpa.allocator(), u8, &[_][]const u8{ vertexSource, line, "\n" });
-                    },
-                    .Fragment => {
-                        fragmentSource = try std.mem.concat(gpa.allocator(), u8, &[_][]const u8{ fragmentSource, line, "\n" });
-                    },
-                    else => {},
-                }
-            }
-        }
-
-        const rendererId = try compile(vertexSource, fragmentSource);
-
+    pub fn init(vertexSrc: []const u8, fragmentSrc: []const u8) !Self {
+        const rendererId = try compile(vertexSrc, fragmentSrc);
         return .{
             .rendererId = rendererId,
         };
     }
 
     fn compile(vertexSrc: []const u8, fragmentSrc: []const u8) !u32 {
-        _ = fragmentSrc;
-        _ = vertexSrc;
-        return 0;
+        var vertex = opengl.createShader(opengl.ShaderType.Vertex);
+        defer opengl.deleteShader(vertex);
+        opengl.shaderSource(vertex, vertexSrc);
+        try opengl.compileShader(vertex);
+
+        var fragment = opengl.createShader(opengl.ShaderType.Fragment);
+        defer opengl.deleteShader(fragment);
+        opengl.shaderSource(fragment, fragmentSrc);
+        try opengl.compileShader(fragment);
+
+        var program = opengl.createProgram();
+        opengl.attachShader(program, vertex);
+        opengl.attachShader(program, fragment);
+        try opengl.linkProgram(program);
+
+        return program;
+    }
+
+    pub fn bind(self: *const Self) void {
+        opengl.useProgram(self.rendererId);
     }
 };
