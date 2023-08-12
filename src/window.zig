@@ -1,4 +1,4 @@
-const glfw3 = @import("glfw3.zig");
+const glfw3 = @import("platform/glfw/glfw3.zig");
 
 pub const Window = struct {
     const Self = @This();

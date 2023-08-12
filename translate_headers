@@ -1,2 +1,2 @@
 #!/bin/sh
-zig translate-c vendor/glfw/include/GLFW/glfw3.h > src/glfw3.zig
+zig translate-c vendor/glfw/include/GLFW/glfw3.h > src/platform/glfw/glfw3.zig
