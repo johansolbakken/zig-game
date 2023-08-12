@@ -6,8 +6,11 @@ const Input = @import("input.zig");
 
 const VertexArray = @import("../renderer/vertexarray.zig").VertexArray;
 const VertexBuffer = @import("../renderer/vertexbuffer.zig").VertexBuffer;
+const Shader = @import("../renderer/shader.zig").Shader;
 
 const opengl = @import("../platform/opengl/opengl.zig");
+
+const simpleShader = @embedFile("../shaders/simple.glsl");
 
 pub const Application = struct {
     const Self = @This();
@@ -47,6 +50,9 @@ pub const Application = struct {
 
         opengl.enableVertexAttribArray(0);
         opengl.vertexAttribPointer(0, 3, opengl.GLType.Float, false, 3 * @sizeOf(f32), 0);
+
+        var shader = try Shader.init(simpleShader);
+        _ = shader;
 
         while (!self.window.shouldClose()) {
             RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
