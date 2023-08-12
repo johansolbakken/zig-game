@@ -29,7 +29,7 @@ pub const Application = struct {
             RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
             RenderCommand.clear();
 
-            Renderer2D.drawQuad(.{ 0.0, 0.0, 0.0 }, .{ 1.0, 1.0 }, .{ 1.0, 0.0, 0.0 });
+            Renderer2D.drawQuad(.{ 0.0, 0.0, 0.0 }, .{ 1.0, 1.0 }, .{ 1.0, 1.0, 0.0 });
 
             self.window.update();
         }

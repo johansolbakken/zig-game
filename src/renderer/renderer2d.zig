@@ -69,13 +69,12 @@ pub fn drawQuad(
     size: @Vector(2, f32),
     color: @Vector(3, f32),
 ) void {
-    _ = color;
     _ = size;
     _ = position;
     rendererData.va.bind();
     rendererData.shader.bind();
 
-    //rendererData.shader.setUniformVec3("u_Color", color);
+    rendererData.shader.setVec3("u_Color", color);
 
     RenderCommand.drawIndexed(&rendererData.va);
 }

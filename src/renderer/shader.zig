@@ -26,4 +26,11 @@ pub const Shader = struct {
             else => unreachable,
         }
     }
+
+    pub fn setVec3(self: *const Self, name: []const u8, vec: @Vector(3, f32)) void {
+        switch (RenderApi.api) {
+            .OpenGL => self.glImpl.setVec3(name, vec),
+            else => unreachable,
+        }
+    }
 };

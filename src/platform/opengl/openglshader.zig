@@ -45,4 +45,9 @@ pub const OpenGLShader = struct {
     pub fn bind(self: *const Self) void {
         opengl.useProgram(self.rendererId);
     }
+
+    pub fn setVec3(self: *const Self, name: []const u8, vec: @Vector(3, f32)) void {
+        const location = opengl.getUniformLocation(self.rendererId, name);
+        opengl.uniform3f(location, vec[0], vec[1], vec[2]);
+    }
 };

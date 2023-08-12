@@ -181,3 +181,11 @@ pub fn debugShaderCompilation(shader: u32) !void {
         std.log.err("OpenGL shader compilation failed: {s}", .{infoLog[0..@intCast(length)]});
     }
 }
+
+pub fn getUniformLocation(program: u32, name: []const u8) i32 {
+    return glad.glGetUniformLocation(program, @ptrCast(name));
+}
+
+pub fn uniform3f(location: i32, x: f32, y: f32, z: f32) void {
+    glad.glUniform3f(location, x, y, z);
+}
