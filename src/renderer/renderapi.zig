@@ -29,9 +29,9 @@ pub fn clear() void {
     }
 }
 
-pub fn drawIndexed(vertexArray: *VertexArray, count: u32) void {
+pub fn drawIndexed(vertexArray: *VertexArray) void {
     switch (api) {
-        Api.OpenGL => OpenGLRenderApi.drawIndexed(&vertexArray.glImpl, count),
+        Api.OpenGL => OpenGLRenderApi.drawIndexed(&vertexArray.glImpl),
         else => error.UnsupportedApi,
     }
 }

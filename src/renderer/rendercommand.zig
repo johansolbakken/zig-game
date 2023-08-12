@@ -13,6 +13,6 @@ pub fn clear() void {
     RenderApi.clear();
 }
 
-pub fn drawIndexed(va: *VertexArray, count: u32) void {
-    RenderApi.drawIndexed(va, count);
+pub fn drawIndexed(va: *VertexArray) void {
+    RenderApi.drawIndexed(va);
 }

@@ -1,9 +1,11 @@
 const opengl = @import("opengl.zig");
+const BufferLayout = @import("../../renderer/vertexbuffer.zig").BufferLayout;
 
 pub const OpenGLVertexBuffer = struct {
     const Self = @This();
 
     rendererId: u32,
+    layout: BufferLayout = undefined,
 
     pub fn init(
         vertices: []const f32,
@@ -29,5 +31,13 @@ pub const OpenGLVertexBuffer = struct {
 
     pub fn bind(self: *const Self) void {
         opengl.bindBuffer(opengl.BufferBindingTarget.ArrayBuffer, self.rendererId);
+    }
+
+    pub fn setLayout(self: *Self, layout: BufferLayout) void {
+        self.layout = layout;
+    }
+
+    pub fn getLayout(self: *const Self) BufferLayout {
+        return self.layout;
     }
 };

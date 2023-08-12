@@ -1,5 +1,7 @@
 const RenderApi = @import("renderapi.zig");
 const OpenGLVertexArray = @import("../platform/opengl/openglvertexarray.zig").OpenGLVertexArray;
+const VertexBuffer = @import("vertexbuffer.zig").VertexBuffer;
+const IndexBuffer = @import("indexbuffer.zig").IndexBuffer;
 
 pub const VertexArray = struct {
     pub const Self = @This();
@@ -31,6 +33,20 @@ pub const VertexArray = struct {
         _ = self;
         switch (RenderApi.api) {
             .OpenGL => OpenGLVertexArray.unbind(),
+            else => unreachable,
+        }
+    }
+
+    pub fn addVertexBuffer(self: *Self, vertexBuffer: VertexBuffer) void {
+        switch (RenderApi.api) {
+            .OpenGL => self.glImpl.addVertexBuffer(vertexBuffer),
+            else => unreachable,
+        }
+    }
+
+    pub fn setIndexBuffer(self: *Self, indexBuffer: IndexBuffer) void {
+        switch (RenderApi.api) {
+            .OpenGL => self.glImpl.setIndexBuffer(indexBuffer),
             else => unreachable,
         }
     }
