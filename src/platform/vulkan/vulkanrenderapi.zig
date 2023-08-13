@@ -1,4 +1,5 @@
 const std = @import("std");
+const builtin = @import("builtin");
 const VertexArray = @import("../../renderer/VertexArray.zig").VertexArray;
 const vulkan = @import("vulkan.zig");
 
@@ -7,12 +8,28 @@ const vulkan = @import("vulkan.zig");
 const VulkanContext = struct {
     const Self = @This();
 
+    const libraryName = switch (builtin.os.tag) {
+        .macos => "libvulkan.1.dylib",
+        else => unreachable,
+    };
+
+    handle: std.DynLib,
+    vkGetInstanceProcAddr: vulkan.PFN_vkGetInstanceProcAddr,
+
     fn init() !Self {
-        return .{};
+        var library = try std.DynLib.open(libraryName);
+        const vkGetInstanceProcAddr = library.lookup(vulkan.PFN_vkGetInstanceProcAddr, "vkGetInstanceProcAddr") orelse {
+            return error.FailedToLoadVkGetInstanceProcAddr;
+        };
+
+        return .{
+            .handle = library,
+            .vkGetInstanceProcAddr = vkGetInstanceProcAddr,
+        };
     }
 
     fn deinit(self: *Self) void {
-        _ = self;
+        self.handle.close();
     }
 };
 

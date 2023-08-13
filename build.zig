@@ -17,7 +17,6 @@ pub fn build(b: *std.Build) void {
     exe.addIncludePath(.{ .path = "vendor/glad/include" });
     exe.addCSourceFile(.{ .file = .{ .path = "src/platform/opengl/glinit.c" }, .flags = &[_][]const u8{} });
     exe.addCSourceFile(.{ .file = .{ .path = "vendor/glad/src/glad.c" }, .flags = &[_][]const u8{} });
-    exe.linkSystemLibrary("vulkan");
 
     b.installArtifact(exe);
 
