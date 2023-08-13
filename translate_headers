@@ -1,2 +1,3 @@
 #!/bin/sh
 zig translate-c vendor/glfw/include/GLFW/glfw3.h > src/platform/glfw/glfw3.zig
+zig translate-c vendor/vulkan/vulkan.h -I$VULKAN_SDK/include > src/platform/vulkan/vulkan.zig

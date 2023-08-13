@@ -1,16 +1,27 @@
 const OpenGLRenderApi = @import("../platform/opengl/openglrenderapi.zig");
+const VulkanRenderApi = @import("../platform/vulkan/vulkanrenderapi.zig");
 const VertexArray = @import("vertexarray.zig").VertexArray;
 
 pub const Api = enum {
+    None,
     OpenGL,
     Vulkan,
 };
 
-pub const api = Api.OpenGL;
+pub const api = Api.Vulkan;
 
 pub fn init() !void {
     switch (api) {
         Api.OpenGL => try OpenGLRenderApi.init(),
+        Api.Vulkan => try VulkanRenderApi.init(),
+        else => error.UnsupportedApi,
+    }
+}
+
+pub fn deinit() void {
+    switch (api) {
+        Api.OpenGL => OpenGLRenderApi.deinit(),
+        Api.Vulkan => VulkanRenderApi.deinit(),
         else => error.UnsupportedApi,
     }
 }

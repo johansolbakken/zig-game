@@ -26,10 +26,10 @@ pub const Application = struct {
 
     pub fn run(self: *Self) !void {
         while (!self.window.shouldClose()) {
-            RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
-            RenderCommand.clear();
+            //RenderCommand.setClearColor(0.1, 0.1, 0.1, 1.0);
+            //RenderCommand.clear();
 
-            Renderer2D.drawQuad(.{ 0.0, 0.0, 0.0 }, .{ 1.0, 1.0 }, .{ 1.0, 1.0, 0.0 });
+            //Renderer2D.drawQuad(.{ 0.0, 0.0, 0.0 }, .{ 1.0, 1.0 }, .{ 1.0, 1.0, 0.0 });
 
             self.window.update();
         }
