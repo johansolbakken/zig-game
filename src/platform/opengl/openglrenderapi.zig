@@ -6,6 +6,8 @@ pub fn init() !void {
     try opengl.init();
 }
 
+pub fn deinit() void {}
+
 pub fn setClearColor(r: f32, g: f32, b: f32, a: f32) void {
     opengl.setClearColor(r, g, b, a);
 }

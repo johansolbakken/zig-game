@@ -8,7 +8,7 @@ pub const Api = enum {
     Vulkan,
 };
 
-pub const api = Api.Vulkan;
+pub const api = Api.OpenGL;
 
 pub fn init() !void {
     switch (api) {
