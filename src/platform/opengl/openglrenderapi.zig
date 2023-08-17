@@ -1,5 +1,5 @@
 const opengl = @import("opengl.zig");
-const OpenGLVertexArray = @import("openglvertexarray.zig").OpenGLVertexArray;
+const VertexArray = @import("../../renderer/vertexarray.zig").VertexArray;
 const std = @import("std");
 
 pub fn init() !void {
@@ -16,8 +16,7 @@ pub fn clear() void {
     opengl.clear();
 }
 
-pub fn drawIndexed(vertexArray: *OpenGLVertexArray) void {
+pub fn drawIndexed(vertexArray: *VertexArray) void {
     vertexArray.bind();
-    // getCount = 0
-    opengl.drawIndexed(opengl.DrawMode.Triangles, @intCast(vertexArray.indexBuffer.getCount()), opengl.GLType.UnsignedInt);
+    opengl.drawIndexed(opengl.DrawMode.Triangles, @intCast(vertexArray.getIndexBuffer().getCount()), opengl.GLType.UnsignedInt);
 }

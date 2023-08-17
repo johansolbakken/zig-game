@@ -50,4 +50,11 @@ pub const VertexArray = struct {
             else => unreachable,
         }
     }
+
+    pub fn getIndexBuffer(self: *Self) IndexBuffer {
+        switch (RenderApi.api) {
+            .OpenGL => return self.glImpl.getIndexBuffer(),
+            else => unreachable,
+        }
+    }
 };

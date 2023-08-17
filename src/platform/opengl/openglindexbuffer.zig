@@ -1,4 +1,5 @@
 const opengl = @import("opengl.zig");
+const std = @import("std");
 
 pub const OpenGLIndexBuffer = struct {
     const Self = @This();

@@ -42,7 +42,7 @@ pub fn clear() void {
 
 pub fn drawIndexed(vertexArray: *VertexArray) void {
     switch (api) {
-        Api.OpenGL => OpenGLRenderApi.drawIndexed(&vertexArray.glImpl),
+        Api.OpenGL => OpenGLRenderApi.drawIndexed(vertexArray),
         else => error.UnsupportedApi,
     }
 }

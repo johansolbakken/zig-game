@@ -87,4 +87,8 @@ pub const OpenGLVertexArray = struct {
         indexBuffer.bind();
         self.indexBuffer = indexBuffer;
     }
+
+    pub fn getIndexBuffer(self: *Self) IndexBuffer {
+        return self.indexBuffer;
+    }
 };
